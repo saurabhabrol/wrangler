@@ -1,0 +1,64 @@
+***Below are the prompts i actually used that helped me with the assignment.***
+
+
+
+
+~how to add BYTEx_SIZE and TIME_DURATION token types to the Wrangler grammar?
+
+~write ByteSize.java class that extends Token and parses strings like '10KB' or '2MB'
+
+~write TimeDuration.java class that parses strings like '150ms' or '2s'
+
+~how to update TokenType enum to support BYTE_SIZE and TIME_DURATION?
+
+~help me create a new directive named aggregate-stats that accepts byte size and time duration columns
+
+~how to accumulate values across rows for aggregate directive in Wrangler?
+
+~how to convert bytes to MB and nanoseconds to seconds in Java?
+
+~write unit test for ByteSize class covering inputs like 1KB, 1.5MB, etc.
+
+~write unit test for TimeDuration class covering inputs like 5ms, 2.1s, etc.
+
+~update Directives.g4 file to support BYTE_SIZE and TIME_DURATION tokens
+
+~how to generate ANTLR code using mvn compile in Wrangler?
+
+~help me update GrammarBasedParser to support BYTE_SIZE and TIME_DURATION tokens
+
+~help me use visitByteSizeArg and visitTimeDurationArg in CustomDirectiveVisitor
+
+~create unit test for aggregate-stats directive with sample Row input and expected output
+
+~what is the purpose of mvn clean install -DskipTests and what does it do?
+
+~ran mvn test -pl wrangler-core, what does this mean and how to interpret results?
+
+~mvn clean install failed at wrangler-storage, what should I mention in the report?
+
+~write build & verification section for successful Maven build
+
+~I have added new token types BYTE_SIZE and TIME_DURATION to the TokenType enum in the Wrangler API module...
+
+~I have completed implementing the ByteSize and TimeDuration token classes.
+
+~I’m creating a CustomDirectiveVisitor class by extending DirectivesBaseVisitor...
+
+~I want to update GrammarWalker to support custom token types using CustomDirectiveVisitor...
+
+~I have located ANTLRCompiler.java and RecipeCompiler.java...
+
+~I need help building the CDAP Wrangler project from scratch — let’s go step-by-step...
+
+~Here is the content of RecipeCompiler.java.
+
+~I’ve found the GrammarWalker and GrammarBasedParser files, haven’t modified them yet.
+
+~Here is the full content of RecipeVisitor.
+
+~How do I integrate the new token types into the core parsing logic?
+
+~How do I override visitByteSizeArg and visitTimeDurationArg?
+
+~I’m getting ‘Method does not override method from its superclass’ error
