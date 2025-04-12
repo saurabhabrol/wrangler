@@ -50,8 +50,10 @@ statements
  ;
 
 directive
- : command
-  (   codeblock
+  : command
+    ( BYTE_SIZE
+    | TIME_DURATION
+    | codeblock
     | identifier
     | macro
     | text
@@ -64,8 +66,9 @@ directive
     | stringList
     | numberRanges
     | properties
-  )*?
+    )*?
   ;
+
 
 ifStatement
   : ifStat elseIfStat* elseStat? '}'
@@ -128,8 +131,9 @@ propertyList
  ;
 
 property
- : Identifier '=' ( text | number | bool )
+ : Identifier '=' ( text | number | bool | BYTE_SIZE | TIME_DURATION )  // Include BYTE_SIZE and TIME_DURATION in properties
  ;
+
 
 numberRanges
  : numberRange ( ',' numberRange)*
@@ -137,11 +141,21 @@ numberRanges
 
 numberRange
  : Number ':' Number '=' value
+ | BYTE_SIZE ':' BYTE_SIZE '=' value    // Add BYTE_SIZE ranges
+ | TIME_DURATION ':' TIME_DURATION '=' value  // Add TIME_DURATION ranges
  ;
 
+
+
 value
- : String | Number | Column | Bool
+ : String
+ | Number
+ | Column
+ | Bool
+ | BYTE_SIZE    // Add BYTE_SIZE to handle byte size values
+ | TIME_DURATION  // Add TIME_DURATION to handle time duration values
  ;
+
 
 ecommand
  : '!' Identifier
@@ -163,6 +177,16 @@ number
  : Number
  ;
 
+// Lexer rule for BYTE_SIZE
+BYTE_SIZE
+  : [0-9]+ ('KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB')
+  ;
+
+// Lexer rule for TIME_DURATION
+TIME_DURATION
+  : [0-9]+ ('ms' | 's' | 'm' | 'h' | 'd')
+  ;
+
 bool
  : Bool
  ;
@@ -180,8 +204,11 @@ colList
  ;
 
 numberList
- : Number (',' Number)+
+ : Number (',' Number)*
+ | BYTE_SIZE (',' BYTE_SIZE)*   // Add BYTE_SIZE here for lists
+ | TIME_DURATION (',' TIME_DURATION)*  // Add TIME_DURATION here for lists
  ;
+
 
 boolList
  : Bool (',' Bool)+

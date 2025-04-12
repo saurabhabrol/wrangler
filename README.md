@@ -197,6 +197,29 @@ CDAP IRC Channel: [#cdap on irc.freenode.net](http://webchat.freenode.net?channe
 
 CDAP Users on Slack: [cdap-users team](https://cdap-users.herokuapp.com)
 
+## Grammar Modifications
+
+### New Token Types
+We’ve added two new token types to the grammar:
+
+- **BYTE_SIZE**: Captures a number followed by a byte unit (e.g., `10MB`, `1GB`).
+- **TIME_DURATION**: Captures a number followed by a time unit (e.g., `5s`, `3h`).
+
+### Changes to the Grammar
+
+1. **Lexer Rules**: 
+    - Added new fragments for byte units (`BYTE_UNIT`) and time units (`TIME_UNIT`).
+    - Added lexer rules for `BYTE_SIZE` and `TIME_DURATION`.
+
+2. **Parser Rules**:
+    - The `value` rule was updated to accept `BYTE_SIZE` and `TIME_DURATION` tokens.
+    - Other parser rules, such as `numberList` and `numberRanges`, were updated to include `BYTE_SIZE` and `TIME_DURATION` as valid options.
+
+### Example Usage
+
+- Byte Size: `10MB`, `100GB`
+- Time Duration: `5s`, `1h`
+
 
 ## License and Trademarks
 
