@@ -309,6 +309,12 @@
       <artifactId>cdap-system-app-api</artifactId>
       <version>${cdap.version}</version>
     </dependency>
+    <!-- Add under dependencies section -->
+        <dependency>
+          <groupId>com.ibm.icu</groupId>
+          <artifactId>icu4j</artifactId>
+          <version>72.1</version>
+        </dependency>
   </dependencies>
 
 
@@ -357,6 +363,41 @@
             <item>${user.name}</item>
           </items>
         </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+              <argLine>
+                  --add-opens java.base/java.lang=ALL-UNNAMED
+                  --add-opens java.base/java.util=ALL-UNNAMED
+                  --add-opens java.base/java.io=ALL-UNNAMED
+                  --add-opens java.base/java.time=ALL-UNNAMED
+                  --add-opens java.base/java.text=ALL-UNNAMED
+                  --add-opens java.base/java.util.concurrent=ALL-UNNAMED
+                  --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+                  --add-opens java.base/java.net=ALL-UNNAMED
+                  --add-opens java.base/java.nio=ALL-UNNAMED
+                  --add-opens java.base/java.util.regex=ALL-UNNAMED
+                  --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                  --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
+                  --add-opens java.xml/com.sun.org.apache.xerces.internal.jaxp=ALL-UNNAMED
+                  -Duser.timezone=UTC
+                  -Duser.country=US
+                  -Duser.language=en
+              </argLine>
+              <systemPropertyVariables>
+                  <user.timezone>UTC</user.timezone>
+                  <user.country>US</user.country>
+                  <user.language>en</user.language>
+                  <powermock.ignore-locations>true</powermock.ignore-locations>
+              </systemPropertyVariables>
+              <useSystemClassLoader>false</useSystemClassLoader>
+              <forkCount>1</forkCount>
+              <reuseForks>false</reuseForks>
+              <trimStackTrace>false</trimStackTrace>
+          </configuration>
       </plugin>
     </plugins>
   </build>
