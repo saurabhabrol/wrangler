@@ -52,7 +52,7 @@ public class ExtractRegexGroupsTest {
   public static final String DATE_REGEX;
   public static final String TIME_REGEX;
 
-  private static class RegexInputOutput {
+  public static class RegexInputOutput {
     public final String input;
     public final String[] output;
 

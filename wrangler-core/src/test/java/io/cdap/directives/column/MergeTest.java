@@ -47,11 +47,10 @@ public class MergeTest {
     Assert.assertEquals("Joltie Root", rows.get(0).getValue("D"));
   }
 
-  @Ignore
   @Test
   public void testWithQuoteAsSeparator() throws Exception {
     String[] directives = new String[] {
-      "merge A B C '\''",
+      "merge A B C '\\''", // Escape the single quote
     };
 
     List<Row> rows = Arrays.asList(
@@ -78,18 +77,19 @@ public class MergeTest {
     Assert.assertEquals("Root\nJoltie", rows.get(0).getValue("C"));
   }
 
-  @Ignore
   @Test
   public void testSingleQuoteAtEndOnly() throws Exception {
     String[] directives = new String[] {
-      "merge A B C '\\u000A", // in actuality you need only one back slash.
+      "merge A B C '\\u000A'", // Fixed the missing closing quote
     };
 
     List<Row> rows = Arrays.asList(
       new Row("A", "Root").add("B", "Joltie")
     );
 
-    TestingRig.execute(directives, rows);
+    rows = TestingRig.execute(directives, rows);
+    Assert.assertEquals(1, rows.size());
+    Assert.assertEquals("Root\nJoltie", rows.get(0).getValue("C"));
   }
 
   @Test

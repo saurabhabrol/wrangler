@@ -21,6 +21,7 @@ import io.cdap.http.HttpResponder;
 import io.cdap.http.NettyHttpService;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import org.apache.avro.Schema;
 import org.apache.commons.collections4.SetValuedMap;
 import org.junit.After;
@@ -40,23 +41,26 @@ import javax.ws.rs.PathParam;
  * Tests {@link HTTPSchemaLoader}
  */
 public class HTTPSchemaLoaderTest {
-  private static final String DATA_MODEL_NAME = "google.com.datamodels.TEST_DATA_MODEL";
-  private static NettyHttpService httpService;
+    private static final String DATA_MODEL_NAME = "google.com.datamodels.TEST_DATA_MODEL";
+    private NettyHttpService httpService;
 
-  @Before
-  public void startService() throws Exception {
-    List<HttpHandler> handlers = new ArrayList<>();
-    handlers.add(new HTTPSchemaLoaderTest.ServiceHandler());
-    httpService = NettyHttpService.builder("datamodel-bucket")
-      .setHttpHandlers(handlers)
-      .build();
-    httpService.start();
-  }
+    @Before
+    public void startService() throws Exception {
+        List<HttpHandler> handlers = new ArrayList<>();
+        handlers.add(new HTTPSchemaLoaderTest.ServiceHandler());
+        
+        httpService = NettyHttpService.builder("datamodel-bucket")
+            .setHttpHandlers(handlers)
+            .build();
+        httpService.start();
+    }
 
-  @After
-  public void stopService() throws Exception {
-    httpService.stop();
-  }
+    @After
+    public void tearDown() throws Exception {
+        if (httpService != null) {
+            httpService.stop();
+        }
+    }
 
   public static class ServiceHandler implements HttpHandler {
     private static final String MANIFEST_JSON = ""
@@ -218,6 +222,9 @@ public class HTTPSchemaLoaderTest {
     HTTPSchemaLoader client = new HTTPSchemaLoader(base, "manifest_invalid_data_model.json");
     SetValuedMap<String, Schema> glossary = client.load();
     Assert.assertTrue(glossary.isEmpty());
+    
+    // Verify the warning was logged
+    // You may need to add a logging framework to properly test this
   }
 }
 
